@@ -29,17 +29,22 @@ class ResultAggregator:
         self.results = []
         self.match_counts = defaultdict(int)
         self.file_count = 0
+        self.total_pages = 0
 
-    def add_results(self, file_path: Path, matches: List[PDFMatch]) -> None:
+    def add_results(self, file_path: Path, matches: List[PDFMatch], page_count: int = 0) -> None:
         """
         Add results from a file.
 
         Args:
             file_path: Path to the file that was processed
             matches: List of PDFMatch objects found in the file
+            page_count: Number of pages in the file
         """
         if matches:
             self.file_count += 1
+
+        if page_count > 0:
+            self.total_pages += page_count
 
         for match in matches:
             result = {
@@ -105,12 +110,19 @@ class ResultAggregator:
             files_scanned: Total number of files scanned
             term_list: Dictionary of search terms used
         """
+        # Format elapsed time as minutes and seconds
+        minutes = int(elapsed_time // 60)
+        seconds = elapsed_time % 60
+        elapsed_formatted = f"{minutes}m {seconds:.2f}s"
+
         summary = {
             'job_summary': {
                 'start_time': start_time.isoformat(),
                 'end_time': end_time.isoformat(),
                 'elapsed_time_seconds': elapsed_time,
+                'elapsed_time_formatted': elapsed_formatted,
                 'files_scanned': files_scanned,
+                'pages_processed': self.total_pages,
                 'files_with_matches': self.file_count,
                 'total_matches': self.get_total_matches()
             },

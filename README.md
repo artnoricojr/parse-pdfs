@@ -131,7 +131,9 @@ ssn,\d{3}-\d{2}-\d{4}
     "start_time": "2025-01-15T10:30:00",
     "end_time": "2025-01-15T10:32:15",
     "elapsed_time_seconds": 135.5,
+    "elapsed_time_formatted": "2m 15.50s",
     "files_scanned": 50,
+    "pages_processed": 423,
     "files_with_matches": 12,
     "total_matches": 156
   },

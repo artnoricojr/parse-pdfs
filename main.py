@@ -56,13 +56,13 @@ def main():
         for file_path in files_to_process:
             try:
                 logger.info(f"Processing: {file_path}")
-                results = process_pdf_file(
+                results, page_count = process_pdf_file(
                     file_path,
                     term_list,
                     args.context_before,
                     args.context_after
                 )
-                aggregator.add_results(file_path, results)
+                aggregator.add_results(file_path, results, page_count)
             except Exception as e:
                 log_exception(f"Error processing {file_path}", e)
 

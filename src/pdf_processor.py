@@ -6,7 +6,7 @@ Extracts text from PDF files using PyMuPDF and searches for regex patterns.
 
 import re
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 import fitz  # PyMuPDF
 
 
@@ -145,7 +145,7 @@ def process_pdf_file(
     term_dict: Dict[str, str],
     context_before: int = 50,
     context_after: int = 50
-) -> List[PDFMatch]:
+) -> Tuple[List[PDFMatch], int]:
     """
     Process a PDF file and search for patterns.
 
@@ -156,7 +156,7 @@ def process_pdf_file(
         context_after: Characters to include after match
 
     Returns:
-        List of all matches found in the PDF
+        Tuple of (list of all matches found in the PDF, page count)
 
     Raises:
         Exception: If PDF processing fails
@@ -165,6 +165,7 @@ def process_pdf_file(
 
     # Extract text from all pages
     page_texts = extract_text_from_pdf(file_path)
+    page_count = len(page_texts)
 
     # Search each page
     for page_num, page_text in page_texts.items():
@@ -177,7 +178,7 @@ def process_pdf_file(
         )
         all_matches.extend(page_matches)
 
-    return all_matches
+    return all_matches, page_count
 
 
 def get_pdf_metadata(pdf_path: Path) -> dict:
