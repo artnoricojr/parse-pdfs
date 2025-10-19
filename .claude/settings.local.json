@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree /L 2)",
+      "Bash(dir \"C:\\Users\\anori\\Documents\\VSCode\\parse-pdfs\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

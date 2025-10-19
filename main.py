@@ -87,7 +87,8 @@ def main():
                 end_time=end_time,
                 elapsed_time=elapsed_time,
                 files_scanned=len(files_to_process),
-                term_list=term_list
+                term_list=term_list,
+                args=args
             )
             logger.info(f"Summary report saved to: {summary_file}")
 

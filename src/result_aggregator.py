@@ -97,7 +97,8 @@ class ResultAggregator:
         end_time: datetime,
         elapsed_time: float,
         files_scanned: int,
-        term_list: Dict[str, str]
+        term_list: Dict[str, str],
+        args = None
     ) -> None:
         """
         Save job summary report.
@@ -109,6 +110,7 @@ class ResultAggregator:
             elapsed_time: Elapsed time in seconds
             files_scanned: Total number of files scanned
             term_list: Dictionary of search terms used
+            args: Parsed command-line arguments (optional)
         """
         # Format elapsed time as minutes and seconds
         minutes = int(elapsed_time // 60)
@@ -134,6 +136,20 @@ class ResultAggregator:
             },
             'match_counts_by_term': self.get_matches_by_term()
         }
+
+        # Add input arguments to summary if provided
+        if args is not None:
+            summary['input_arguments'] = {
+                'scan_folder': str(args.scan_folder),
+                'output_folder': str(args.output_folder),
+                'term_list_path': str(args.term_list_path),
+                'file_extensions': args.file_extensions,
+                'recursive': args.recursive,
+                'context_before': args.context_before,
+                'context_after': args.context_after,
+                'summary_report': args.summary_report,
+                'verbose': args.verbose
+            }
 
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(summary, f, indent=2, ensure_ascii=False)
